@@ -132,7 +132,7 @@ const main = async() : Promise<void> => {
 
         if(shapeState === ShapeState.LINE) {
             newObj.SetVertex(currentVerticesShape);
-        } else if (shapeState === ShapeState.SQUARE) {
+        } else if (shapeState === ShapeState.RECTANGLE) {
             const deltaX = currentVerticesShape[2] - currentVerticesShape[0]
             const deltaY = currentVerticesShape[3] - currentVerticesShape[1]
             const squareVerticesShape = [
