@@ -9,6 +9,52 @@
     <script defer src="app.js" type="module"></script>
 </head>
 <body>
+    <h1>CAD Application</h1>
+    <br>
     <canvas id="webgl-canvas"></canvas>
+    <div class="toolbar">
+        <h2>Tools & Transformation</h2>
+        <br>
+        <div class="toolbar-container">
+            <div class="toolbar-container-1">
+                <select id="shape-tools">
+                    <option value="line" selected>Line</option>
+                    <option value="square">Square</option>
+                    <option value="rectangle">Rectangle</option>
+                </select>
+                <select id="action-tools">
+                    <option value="none" selected>None</option>
+                    <option value="select">Select</option>
+                    <option value="move">Move</option>
+                </select>
+                <div>
+                    <label for="color">Color</label>
+                    <input type="color" name="color" id="color-picker">
+                </div>
+            </div>
+            <div class="toolbar-container-2">
+                <div class="toolbar-container-2">
+                    <div class="transformation-container">
+                        <p>Translate X</p>
+                        <input type="range" min="0" max="900" value="0" id="translate-x">
+                        <p>Translate Y</p>
+                        <input type="range" min="0" max="500" value="0" id="translate-y">
+                    </div>
+                    <div class="transformation-container">
+                        <p>Rotation</p>
+                        <input type="range" min="0" max="360" value="0" id="rotate">
+                    </div>
+                    <div class="transformation-container">
+                        <p>Scale X</p>
+                        <input type="range" min="0" max="10" value="1" id="scale-x">
+                        <p>Scale Y</p>
+                        <input type="range" min="0" max="10" value="1" id="scale-y">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <button class="ok-button">OK</button>
+    </div>
 </body>
 </html>

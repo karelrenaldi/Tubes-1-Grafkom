@@ -10,12 +10,18 @@ export class GLHelper implements IGLHelper {
     public Objects : Array<GLObject>;
     public Total : number;
 
-    constructor() {
+    private gl : WebGL2RenderingContext;
+
+    constructor(gl : WebGL2RenderingContext) {
         this.Objects = new Array<GLObject>();
         this.Total = 0;
+        this.gl = gl;
     }
 
     public Run() : void {
+        // Clear canvas.
+        this.gl.clearColor(1, 1, 1, 1);
+        this.gl.clear(this.gl.COLOR_BUFFER_BIT);
         requestAnimationFrame(this.RenderAllObject.bind(this));
     }
 

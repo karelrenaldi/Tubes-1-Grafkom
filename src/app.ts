@@ -5,18 +5,14 @@ import { CanvasUtils } from './utils/canvas';
 
 const main = async() : Promise<void> => {
     const canvas = document.querySelector('#webgl-canvas') as HTMLCanvasElement;
-    canvas.width = 800;
-    canvas.height = 600;
+    canvas.width = 900;
+    canvas.height = 500;
 
     const gl = canvas.getContext('webgl2');
     if(!gl) {
         console.error("Your browser doesn't support webgl");
         return;
     }
-
-    // Clear canvas.
-    gl.clearColor(1, 1, 1, 1);
-    gl.clear(gl.COLOR_BUFFER_BIT);
 
     // Init shader program.
     const shaderUtil = new ShaderUtil(
@@ -30,7 +26,7 @@ const main = async() : Promise<void> => {
         return;
     }
 
-    const glHelper = new GLHelper();
+    const glHelper = new GLHelper(gl);
 
     let id = 0;
     canvas.addEventListener('mousedown', e => {
@@ -49,7 +45,7 @@ const main = async() : Promise<void> => {
         id++;
     });
 
-    glHelper.Run();
+    // glHelper.Run();
 }
 
 window.onload = main;
