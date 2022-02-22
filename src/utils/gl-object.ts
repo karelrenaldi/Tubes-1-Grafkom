@@ -20,13 +20,15 @@ export class GLObject implements IGLObject {
   public vertex: VectorNumber;
   public projectionMatrix: VectorNumber;
 
+  private primitive : GLenum;
   private shaderProgram: WebGLProgram;
   private gl: WebGL2RenderingContext;
 
   constructor(
     id: number,
     shaderProgram: WebGLProgram,
-    gl: WebGL2RenderingContext
+    gl: WebGL2RenderingContext,
+    primitive: GLenum
   ) {
     this.id = id;
 
@@ -41,6 +43,7 @@ export class GLObject implements IGLObject {
 
     this.shaderProgram = shaderProgram;
     this.gl = gl;
+    this.primitive = primitive;
   }
 
   public SetColor(red: number, green: number, blue: number, alpha: number): void {
@@ -89,7 +92,7 @@ export class GLObject implements IGLObject {
     this.gl.uniformMatrix3fv(uniformPos, false, this.projectionMatrix);
     this.gl.uniform4fv(uniformCol, this.color);
     this.gl.enableVertexAttribArray(vertexPos);
-    this.gl.drawArrays(this.gl.POINTS, 0, this.vertex.length / 2);
+    this.gl.drawArrays(this.primitive, 0, this.vertex.length / 2);
   }
 
   private generateProjectionMatrix(): VectorNumber | null {

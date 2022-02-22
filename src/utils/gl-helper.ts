@@ -18,13 +18,6 @@ export class GLHelper implements IGLHelper {
         this.gl = gl;
     }
 
-    public Run() : void {
-        // Clear canvas.
-        this.gl.clearColor(1, 1, 1, 1);
-        this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-        requestAnimationFrame(this.RenderAllObject.bind(this));
-    }
-
     public InsertObject(newObj: GLObject) : void { 
         this.Objects.push(newObj); 
         ++this.Total; 
@@ -41,6 +34,5 @@ export class GLHelper implements IGLHelper {
             obj.BindVertices();
             obj.DrawVertices();
         };
-        requestAnimationFrame(this.RenderAllObject.bind(this));
     }
 }
