@@ -4,18 +4,19 @@
   "description": "Tugas Besar 1 IF3260 Grafika Komputer",
   "main": "index.js",
   "scripts": {
-    "dev": "parcel src/index.html",
-    "build": "parcel build src/index.html"
+    "dev": "snowpack dev",
+    "build": "snowpack build"
   },
   "repository": "https://github.com/karelrenaldi/Tubes-1-Grafkom.git",
   "license": "MIT",
   "devDependencies": {
-    "parcel-bundler": "^1.12.5",
-    "sass": "^1.49.8"
+    "@parcel/transformer-sass": "2.3.2",
+    "parcel": "^2.3.2",
+    "sass": "^1.49.8",
+    "snowpack": "^3.8.8",
+    "typescript": "^4.5.5"
   },
-  "dependencies": {
-    "assemble": "~0.3.11",
-    "grunt": "~0.4.0",
-    "styles": "^0.2.1"
-  }
+  "browserslist": [
+    "last 1 Chrome version"
+  ]
 }

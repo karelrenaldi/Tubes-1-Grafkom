@@ -8,5 +8,10 @@
 
 body {
   min-height: 100vh;
-  background-color: blanchedalmond;
+  background-color: tan;
+}
+
+canvas {
+  border: 2px solid #262626;
+  border-radius: 1em;
 }
