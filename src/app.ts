@@ -1,5 +1,7 @@
-import { MatrixMult } from './utils/common';
+import { GLHelper } from './utils/gl-helper';
+import { GLObject } from './utils/gl-object';
 import { ShaderUtil } from './utils/shader';
+import { CanvasUtils } from './utils/canvas';
 
 const main = async() : Promise<void> => {
     const canvas = document.querySelector('#webgl-canvas') as HTMLCanvasElement;
@@ -12,42 +14,11 @@ const main = async() : Promise<void> => {
         return;
     }
 
+    // Clear canvas.
     gl.clearColor(1, 1, 1, 1);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
-    const vertices = [
-        0.1, 0.1,
-        1.0, 1.0,
-        0.0, 1.0
-    ];
-
-    const [u, v] = [0, -0.5];
-    const translateMatrix = [
-        1, 0, 0,
-        0, 1, 0,
-        u, v, 1
-    ]
-
-    const theta = 270;
-    const thetaInRadian = (2 * Math.PI) / 360 * theta;
-    const sinTheta = Math.sin(thetaInRadian);
-    const cosTheta = Math.cos(thetaInRadian);
-    const rotationMatrix = [
-        cosTheta, -sinTheta, 0,
-        sinTheta, cosTheta, 0,
-        0, 0, 1
-    ]
-
-    const [k1, k2] = [0.4, 0.4];
-    const scaleMatrix = [
-        k1, 0, 0,
-        0, k2, 0,
-        0, 0, 1
-    ]
-
-    const projectionMatrix = MatrixMult(MatrixMult(rotationMatrix, scaleMatrix), translateMatrix);
-
-    // Create program.
+    // Init shader program.
     const shaderUtil = new ShaderUtil(
         gl,
         'vertex-shader-drawing.glsl',
@@ -59,19 +30,26 @@ const main = async() : Promise<void> => {
         return;
     }
 
-    const vertexBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+    const glHelper = new GLHelper();
 
-    gl.useProgram(shaderProgram);
-    const vertexPos = gl.getAttribLocation(shaderProgram, "a_pos");
-    const uniformPos = gl.getUniformLocation(shaderProgram, "u_proj_mat");
-    const uniformCol = gl.getUniformLocation(shaderProgram, "u_fragColor");
-    gl.vertexAttribPointer(vertexPos, 2, gl.FLOAT, false, 0, 0);
-    gl.uniformMatrix3fv(uniformPos, false, projectionMatrix);
-    gl.uniform4fv(uniformCol, [1.0, 0.0, 0.0, 1.0]);
-    gl.enableVertexAttribArray(vertexPos);
-    gl.drawArrays(gl.TRIANGLES, 0, vertices.length/2);
+    let id = 0;
+    canvas.addEventListener('mousedown', e => {
+        const cu = new CanvasUtils(e, canvas);
+        const { x, y } = cu.PixelCoorToGLCoor();
+        
+        const obj2 = new GLObject(id, shaderProgram, gl);
+        obj2.SetVertex([x, y]);
+        obj2.SetPosition(0, 0);
+        obj2.SetRotation(0);
+        obj2.SetScale(1, 1);
+        obj2.SetColor(1, 0, 1, 1);
+
+        glHelper.InsertObject(obj2);
+
+        id++;
+    });
+
+    glHelper.Run();
 }
 
-main();
+window.onload = main;
