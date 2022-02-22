@@ -44,7 +44,7 @@ const main = async() : Promise<void> => {
         if (appState === AppState.DRAW) {
             let currentPrimitive = gl.LINES;
             if (shapeState === ShapeState.POLYGON) {
-                currentPrimitive = gl.LINE_STRIP;
+                currentPrimitive = gl.TRIANGLE_FAN;
             }
 
             const newObj = new GLObject(
@@ -108,7 +108,7 @@ const main = async() : Promise<void> => {
                 break;
             case RECTANGLE:
                 shapeState = ShapeState.RECTANGLE;
-                currentVerticesShapeLeft = 4;
+                currentVerticesShapeLeft = 2;
                 currentShapePrimitive = gl.TRIANGLES;
                 break;
             case POLYGON:
@@ -144,6 +144,8 @@ const main = async() : Promise<void> => {
                 currentVerticesShape[0], currentVerticesShape[1],
             ]; 
             newObj.SetVertex(squareVerticesShape);
+        } else if(shapeState === ShapeState.POLYGON) {
+            newObj.SetVertex(currentVerticesShape);
         }
         // TODO: Lanjutin buat 2 bentuk lagi.
 
