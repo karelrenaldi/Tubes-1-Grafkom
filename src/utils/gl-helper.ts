@@ -1,3 +1,4 @@
+import { ShapeType } from '../types/type';
 import { GLObject } from './gl-object';
 
 interface IGLHelper {
@@ -34,5 +35,17 @@ export class GLHelper implements IGLHelper {
             obj.BindVertices();
             obj.DrawVertices();
         };
+    }
+
+    public RemovePoints() : void {
+        this.Objects = this.Objects.filter((obj) => obj.type !== ShapeType.POINT);
+    }
+
+    public GetObjectsData() {
+        const objectsData = [];
+        for(const object of this.Objects) {
+            objectsData.push(object.GetData());
+        }
+        return objectsData;
     }
 }

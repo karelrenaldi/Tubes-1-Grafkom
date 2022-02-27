@@ -13,10 +13,11 @@
     <br>
     <canvas id="webgl-canvas"></canvas>
     <div class="toolbar">
-        <h2>Tools & Transformation</h2>
+        <h2>Tools</h2>
         <br>
         <div class="toolbar-container">
-            <div class="toolbar-container-1">
+            <div>
+                <h3>Option</h3>
                 <select id="shape-tools">
                     <option value="line" selected>Line</option>
                     <option value="square">Square</option>
@@ -25,37 +26,33 @@
                 </select>
                 <select id="action-tools">
                     <option value="draw" selected>Draw</option>
-                    <option value="select">Select</option>
+                    <option value="color">Color</option>
                     <option value="move">Move</option>
                 </select>
-                <div>
-                    <label for="color">Color</label>
-                    <input type="color" name="color" id="color-picker">
-                </div>
             </div>
-            <div class="toolbar-container-2">
-                <div class="toolbar-container-2">
-                    <div class="transformation-container">
-                        <p>Translate X</p>
-                        <input type="range" min="0" max="900" value="0" id="translate-x">
-                        <p>Translate Y</p>
-                        <input type="range" min="0" max="500" value="0" id="translate-y">
-                    </div>
-                    <div class="transformation-container">
-                        <p>Rotation</p>
-                        <input type="range" min="0" max="360" value="0" id="rotate">
-                    </div>
-                    <div class="transformation-container">
-                        <p>Scale X</p>
-                        <input type="range" min="0" max="10" value="1" id="scale-x">
-                        <p>Scale Y</p>
-                        <input type="range" min="0" max="10" value="1" id="scale-y">
-                    </div>
-                </div>
+            <div>
+                <h3>Color</h3>
+                <input type="color" name="color" id="color-picker">
+            </div>
+            <div>
+                <h3>Number of Sides (Polygon)</h3>
+                <input 
+                    type="number" 
+                    min="3" 
+                    max="999" 
+                    name="polygon-num-sides" 
+                    id="polygon-num-sides"
+                    value="3"
+                >
             </div>
         </div>
         <br>
         <button class="ok-button">OK</button>
+        <br>
+        <div class="load-save-container">
+            <button id="load-button">Load Button</button>
+            <button id="save-button">Save Button</button>
+        </div>
     </div>
 </body>
 </html>

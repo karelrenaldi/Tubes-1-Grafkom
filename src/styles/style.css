@@ -7,6 +7,13 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
+  color: #EEEDDE;
+}
+
+input, select, option {
+  border: none;
+  background-color: #E0DDAA;
+  color: #203239;
 }
 
 body {
@@ -16,10 +23,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
 
-canvas {
-  border: 2px solid #262626;
+  background-image: radial-gradient(circle at center center, rgba(33,33,33,0),rgb(33,33,33)),repeating-linear-gradient(135deg, rgb(33,33,33) 0px, rgb(33,33,33) 1px,transparent 1px, transparent 4px),repeating-linear-gradient(45deg, rgb(56,56,56) 0px, rgb(56,56,56) 5px,transparent 5px, transparent 6px),linear-gradient(90deg, rgb(33,33,33),rgb(33,33,33));
 }
 
 .toolbar {
@@ -31,41 +36,44 @@ canvas {
 }
 
 .toolbar-container {
-  grid-gap: 2em;
-}
-
-.toolbar-container-1 {
   display: flex;
   justify-content: center;
-  grid-gap: 1em;
+  grid-gap: 3em;
+  text-align: center;
 }
 
-.toolbar-container-1 select, option {
+.toolbar-container select, option {
   width: 200px;
 }
 
-.toolbar-container-1 option {
+.toolbar-container option {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-.toolbar-container-2 {
-  display: flex;
+.toolbar-container input {
+  width: 200px;
   text-align: center;
-  grid-gap: 1em;
+  font-weight: bold;
 }
 
-.toolbar-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+button {
+  text-decoration: none;
+  border: none;
 
-.ok-button {
-  width: 100px;
+  width: 200px;
   height: 40px;
-  border-radius: 2em;
-  background-color: cornflowerblue;
+
+  background-color: #E0DDAA;
+  color: #203239;
   cursor: pointer;
+  border-radius: 0.5em;
+
+  font-weight: bold;
+}
+
+.load-save-container {
+  display: flex;
+  grid-gap: 2em;
 }

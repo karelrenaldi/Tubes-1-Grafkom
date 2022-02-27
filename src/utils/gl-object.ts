@@ -1,5 +1,6 @@
 import { MatrixMult } from './common';
-import { VectorNumber, VectorNumber2, VectorNumber4 } from '../types/type';
+import { ShapeType, VectorNumber, VectorNumber2, VectorNumber4 } from '../types/type';
+import { DEFAULT_COLOR } from '../constant';
 
 interface IGLObject {
   DrawVertices() : void;
@@ -13,6 +14,7 @@ interface IGLObject {
 
 export class GLObject implements IGLObject {
   public id: number;
+  public type: ShapeType;
   public rotation: number;
   public scale: VectorNumber2;
   public position: VectorNumber2;
@@ -28,15 +30,18 @@ export class GLObject implements IGLObject {
     id: number,
     shaderProgram: WebGLProgram,
     gl: WebGL2RenderingContext,
-    primitive: GLenum
+    primitive: GLenum,
+    type: ShapeType
   ) {
     this.id = id;
+
+    this.type = type;
 
     this.rotation = 0;
     this.scale = [1, 1];
     this.position = [0, 0];
 
-    this.color = [1, 0, 0, 1];
+    this.color = DEFAULT_COLOR;
 
     this.vertex = [];
     this.projectionMatrix = [];
@@ -44,6 +49,18 @@ export class GLObject implements IGLObject {
     this.shaderProgram = shaderProgram;
     this.gl = gl;
     this.primitive = primitive;
+  }
+
+  public GetData() {
+    return {
+      id: this.id,
+      type: this.type,
+      rotation: this.rotation,
+      scale: this.scale,
+      position: this.position,
+      color: this.color,
+      vertex: this.vertex,
+    }
   }
 
   public SetColor(red: number, green: number, blue: number, alpha: number): void {

@@ -11,6 +11,7 @@
   "license": "MIT",
   "devDependencies": {
     "@parcel/transformer-sass": "2.3.2",
+    "@types/randomstring": "^1.1.8",
     "parcel": "^2.3.2",
     "sass": "^1.49.8",
     "snowpack": "^3.8.8",
@@ -18,5 +19,8 @@
   },
   "browserslist": [
     "last 1 Chrome version"
-  ]
+  ],
+  "dependencies": {
+    "randomstring": "^1.2.2"
+  }
 }

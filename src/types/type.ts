@@ -4,15 +4,16 @@ export type VectorNumber4 = [number, number, number, number];
 
 export enum AppState {
     DRAW,
-    SELECT,
     MOVE,
+    COLOR,
     ROTATE,
-    SCALE
+    SCALE,
 }
 
-export enum ShapeState {
+export enum ShapeType {
     LINE,
     SQUARE,
     RECTANGLE,
-    POLYGON
+    POLYGON,
+    POINT
 }
