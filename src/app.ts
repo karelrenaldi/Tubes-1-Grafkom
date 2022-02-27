@@ -190,10 +190,24 @@ const main = async() : Promise<void> => {
 
         if(shapeState === ShapeType.LINE) {
             newObj.SetVertex(currentVerticesShape);
+        } else if(shapeState === ShapeType.SQUARE) {
+            const deltaX = currentVerticesShape[2] - currentVerticesShape[0]
+            const deltaY = currentVerticesShape[3] - currentVerticesShape[0]
+
+            const dist = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+            const squareVerticesShape = [
+                currentVerticesShape[0], currentVerticesShape[1],
+                currentVerticesShape[0], currentVerticesShape[1] + dist,
+                currentVerticesShape[2], currentVerticesShape[3],
+                currentVerticesShape[2], currentVerticesShape[3],
+                currentVerticesShape[0] + dist, currentVerticesShape[1],
+                currentVerticesShape[0], currentVerticesShape[1],
+            ];
+            newObj.SetVertex(squareVerticesShape);
         } else if (shapeState === ShapeType.RECTANGLE) {
             const deltaX = currentVerticesShape[2] - currentVerticesShape[0]
             const deltaY = currentVerticesShape[3] - currentVerticesShape[1]
-            const squareVerticesShape = [
+            const rectangleVerticesShape = [
                 currentVerticesShape[0], currentVerticesShape[1],
                 currentVerticesShape[0], currentVerticesShape[1] + deltaY,
                 currentVerticesShape[2], currentVerticesShape[3],
@@ -201,7 +215,7 @@ const main = async() : Promise<void> => {
                 currentVerticesShape[0] + deltaX, currentVerticesShape[1],
                 currentVerticesShape[0], currentVerticesShape[1],
             ]; 
-            newObj.SetVertex(squareVerticesShape);
+            newObj.SetVertex(rectangleVerticesShape);
         } else if(shapeState === ShapeType.POLYGON) {
             newObj.SetVertex(currentVerticesShape);
         }
