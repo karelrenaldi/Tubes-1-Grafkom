@@ -20,7 +20,6 @@ let currentVerticesShape : Array<number> = [];
 let currentColor : Array<number> = [...DEFAULT_COLOR];
 let currentShapePrimitive : GLenum = 0;
 let isMouseClick : boolean = false;
-let loadFileInput : HTMLInputElement | null;
 
 const main = async() : Promise<void> => {
     const okButton = document.querySelector('.ok-button') as HTMLButtonElement;
@@ -100,7 +99,7 @@ const main = async() : Promise<void> => {
         let isFoundObjectClicked = false;
         glHelper.Objects.forEach((obj) => {
             const currObjVertex = obj.vertex;
-            if(obj.type === ShapeType.LINE && currObjVertex.length === 4) {
+            if(obj.type === ShapeType.LINE || obj.type === ShapeType.POLYGON) {
                 for(let i = 0; i < obj.vertex.length; i += 2) {
                     const distance = EuclidianDistance(
                         [currObjVertex[i], currObjVertex[i + 1]], 
@@ -118,7 +117,7 @@ const main = async() : Promise<void> => {
         if(objectClickedId !== -1 && !objectPointClickedIdx.includes(-1) && isFoundObjectClicked) {
             const clickedObject = glHelper.Objects.find((obj) => obj.id === objectClickedId);
             if (clickedObject) {
-                if(clickedObject.type === ShapeType.LINE) {
+                if(clickedObject.type === ShapeType.LINE || clickedObject.type === ShapeType.POLYGON) {
                     clickedObject.vertex[objectPointClickedIdx[0]] = x;
                     clickedObject.vertex[objectPointClickedIdx[1]] = y;
                 }
