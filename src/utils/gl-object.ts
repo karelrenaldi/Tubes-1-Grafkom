@@ -1,5 +1,5 @@
 import { MatrixMult } from './common';
-import { ShapeType, VectorNumber, VectorNumber2, VectorNumber4 } from '../types/type';
+import { AppData, ShapeType, VectorNumber, VectorNumber2, VectorNumber4 } from '../types/type';
 import { DEFAULT_COLOR } from '../constant';
 
 interface IGLObject {
@@ -10,6 +10,7 @@ interface IGLObject {
   SetScale(k1: number, k2: number): void;
   SetPosition(x: number, y: number): void;
   SetColor(red: number, green: number, blue: number, alpha: number): void;
+  GetData(): AppData;
 }
 
 export class GLObject implements IGLObject {
@@ -51,7 +52,7 @@ export class GLObject implements IGLObject {
     this.primitive = primitive;
   }
 
-  public GetData() {
+  public GetData() : AppData {
     return {
       id: this.id,
       type: this.type,

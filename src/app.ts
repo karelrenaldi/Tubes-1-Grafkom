@@ -2,7 +2,7 @@ import {
     COLOR, DEFAULT_COLOR, DEFAULT_POSITION, DEFAULT_ROTATION, DEFAULT_SCALE, DRAW, LINE, MOVE,
     POLYGON, RECTANGLE, SQUARE
 } from './constant';
-import { AppState, ShapeType } from './types/type';
+import { AppData, AppState, ShapeType } from './types/type';
 import { CanvasUtils } from './utils/canvas';
 import {
     CreateRandomString,
@@ -20,6 +20,7 @@ let currentVerticesShape : Array<number> = [];
 let currentColor : Array<number> = [...DEFAULT_COLOR];
 let currentShapePrimitive : GLenum = 0;
 let isMouseClick : boolean = false;
+let loadFileInput : HTMLInputElement | null;
 
 const main = async() : Promise<void> => {
     const okButton = document.querySelector('.ok-button') as HTMLButtonElement;
@@ -27,8 +28,8 @@ const main = async() : Promise<void> => {
     const actionSelect = document.querySelector('#action-tools') as HTMLSelectElement;
     const polygonNumSideInput = document.querySelector('#polygon-num-sides') as HTMLInputElement;
     const colorInput = document.querySelector('#color-picker') as HTMLInputElement;
+    const loadInput = document.querySelector('#load-input') as HTMLInputElement;
     const saveButton = document.querySelector('#save-button') as HTMLButtonElement;
-    const loadButton = document.querySelector('#load-button') as HTMLButtonElement;
 
     const canvas = document.querySelector('#webgl-canvas') as HTMLCanvasElement;
     canvas.width = 700;
@@ -146,6 +147,7 @@ const main = async() : Promise<void> => {
     });
 
     saveButton.addEventListener('click', () => handleSave());
+    loadInput.addEventListener('change', (e) => handleLoad(e));
 
     const refreshDrawState = () => {
         const shape = shapeSelect.value;
@@ -231,9 +233,6 @@ const main = async() : Promise<void> => {
         glHelper.InsertObject(newObj);
     }
 
-    /**
-     * @handleColorShape is a handler function for coloring object (square, rectangle, polygon).
-     */
     const handleColorShape = (x: number, y: number) => {
         const currColor = HexToRGBA(colorInput.value);
 
@@ -241,7 +240,10 @@ const main = async() : Promise<void> => {
 
         let selectedObject;
         for(const object of objects) {
-            if((object.type === ShapeType.SQUARE || object.type === ShapeType.RECTANGLE) && IsPointInRectSquare([x, y], object.vertex)) {
+            if(
+                (object.type === ShapeType.SQUARE || object.type === ShapeType.RECTANGLE) 
+                && IsPointInRectSquare([x, y], object.vertex)
+            ) {
                 selectedObject = object;
                 break;
             }
@@ -266,8 +268,42 @@ const main = async() : Promise<void> => {
         const fileData = {createdAt: new Date(), data: glHelper.GetObjectsData()};
         const fileName = `${CreateRandomString(30)}.json`;
         const fileType = "application/json"
-        
+
         DownloadFile(JSON.stringify(fileData), fileName, fileType);
+    }
+
+    const handleLoad = (e: Event) => {
+        const files = (<HTMLInputElement>e.target).files as FileList
+        if (!files) return;
+
+        const reader = new FileReader();
+        reader.onload = function (e: ProgressEvent<FileReader>) {
+            const rs = e.target?.result;
+            const data = JSON.parse(rs as string).data as Array<AppData>;
+
+            for(const datum of data) {
+                let currPrimitive = gl.TRIANGLES;
+                if(datum.type === ShapeType.LINE) currPrimitive = gl.LINES;
+                if(datum.type === ShapeType.POLYGON) currPrimitive = gl.TRIANGLE_FAN;
+
+                const newObj = new GLObject(
+                    glHelper.Total,
+                    shaderProgram,
+                    gl,
+                    currPrimitive,
+                    datum.type,
+                )
+                newObj.SetVertex(datum.vertex);
+                newObj.SetPosition(datum.position[0], datum.position[1]);
+                newObj.SetRotation(datum.rotation);
+                newObj.SetScale(datum.scale[0], datum.scale[1]);
+                newObj.SetColor(datum.color[0], datum.color[1], datum.color[2], datum.color[3]);
+        
+                glHelper.InsertObject(newObj);
+            }
+        };
+
+        reader.readAsText(files[0]);
     }
 }
 

@@ -77,3 +77,9 @@ button {
   display: flex;
   grid-gap: 2em;
 }
+
+.load-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

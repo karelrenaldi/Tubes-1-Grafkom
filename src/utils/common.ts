@@ -104,11 +104,19 @@ const DownloadFile = (data: string, filename: string, type: string) : void => {
     document.body.appendChild(a);
 
     a.click();
-    setTimeout(function() {
+    setTimeout(() => {
         document.body.removeChild(a);
         window.URL.revokeObjectURL(url);  
     }, 0); 
 }
 
 
-export { MatrixMult, EuclidianDistance, IsPointInPolygon, IsPointInRectSquare, HexToRGBA, DownloadFile, CreateRandomString };
+export { 
+    MatrixMult, 
+    EuclidianDistance, 
+    IsPointInPolygon, 
+    IsPointInRectSquare, 
+    HexToRGBA, 
+    DownloadFile, 
+    CreateRandomString 
+};

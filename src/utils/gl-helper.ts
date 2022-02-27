@@ -1,8 +1,10 @@
-import { ShapeType } from '../types/type';
+import { AppData, ShapeType } from '../types/type';
 import { GLObject } from './gl-object';
 
 interface IGLHelper {
-    RenderAllObject() : void;
+    RemovePoints(): void;
+    RenderAllObject(): void;
+    GetObjectsData(): Array<AppData>;
     RemoveObject(idObj: number) : void;
     InsertObject(newObj: GLObject) : void;
 }
@@ -37,11 +39,11 @@ export class GLHelper implements IGLHelper {
         };
     }
 
-    public RemovePoints() : void {
+    public RemovePoints(): void {
         this.Objects = this.Objects.filter((obj) => obj.type !== ShapeType.POINT);
     }
 
-    public GetObjectsData() {
+    public GetObjectsData(): Array<AppData> {
         const objectsData = [];
         for(const object of this.Objects) {
             objectsData.push(object.GetData());
