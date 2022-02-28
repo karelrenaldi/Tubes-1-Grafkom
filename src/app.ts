@@ -1,6 +1,6 @@
 import {
     COLOR, DEFAULT_COLOR, DEFAULT_POSITION, DEFAULT_ROTATION, DEFAULT_SCALE, DRAW, LINE, MOVE,
-    POLYGON, RECTANGLE, SQUARE
+    POLYGON, RECTANGLE, RESIZE, SQUARE
 } from './constant';
 import { AppData, AppState, ShapeType } from './types/type';
 import { CanvasUtils } from './utils/canvas';
@@ -28,7 +28,10 @@ const main = async() : Promise<void> => {
     const polygonNumSideInput = document.querySelector('#polygon-num-sides') as HTMLInputElement;
     const colorInput = document.querySelector('#color-picker') as HTMLInputElement;
     const loadInput = document.querySelector('#load-input') as HTMLInputElement;
+    const resizeInput = document.querySelector('#resize-input') as HTMLInputElement;
     const saveButton = document.querySelector('#save-button') as HTMLButtonElement;
+
+    let resizeObjId = -1;
 
     const canvas = document.querySelector('#webgl-canvas') as HTMLCanvasElement;
     canvas.width = 700;
@@ -78,6 +81,23 @@ const main = async() : Promise<void> => {
             isMouseClick = true;
         } else if(appState === AppState.COLOR) {
             handleColorShape(x, y);
+        } else if (appState === AppState.RESIZE) {
+            const objects = glHelper.Objects;
+            let selectedObject = null;
+            for(const object of objects) {
+                if(
+                    (object.type === ShapeType.SQUARE || object.type === ShapeType.RECTANGLE) 
+                    && IsPointInRectSquare([x, y], object.vertex)
+                ) {
+                    selectedObject = object;
+                    break;
+                }
+            }
+
+            if (selectedObject !== null) {
+                resizeInput.disabled = false;
+                resizeObjId = selectedObject.id;
+            }
         }
     });
 
@@ -137,7 +157,38 @@ const main = async() : Promise<void> => {
             appState = AppState.COLOR
         } else if (action === MOVE) {
             appState = AppState.MOVE
+        } else if (action === RESIZE) {
+            appState = AppState.RESIZE
         }
+    });
+
+    resizeInput.addEventListener('change', (e) => {
+        if (resizeObjId !== -1) {
+            let resizeObj = glHelper.Objects.find((obj) => obj.id === resizeObjId);
+            let ratio = resizeInput.valueAsNumber / 100;
+            console.log(ratio);
+            
+            let vertices = resizeObj.vertex;
+            let x0 = vertices[0], y0 = vertices[1],
+                x1 = vertices[4], y1 = vertices[5];
+            
+            if (ratio < 1) {
+                ratio = ratio - 1;
+            }
+
+            resizeObj.vertex = [];
+            resizeObj.vertex.push(
+                x0, y0,
+                x0, y1 + ratio * (y1 - y0),
+                x1 + ratio * (x1 - x0), y1 + ratio * (y1 - y0),
+                x1 + ratio * (x1 - x0), y1 + ratio * (y1 - y0),
+                x1 + ratio * (x1 - x0), y0,
+                x0, y0,
+            )
+        }
+
+        resizeInput.disabled = true;
+        resizeInput.valueAsNumber = 100;
     });
 
     colorInput.addEventListener('change', (e) => {
