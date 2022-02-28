@@ -83,3 +83,39 @@ button {
   justify-content: center;
   align-items: center;
 }
+
+.card-header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px; 
+  margin-top: 20px;
+}
+
+.line {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 350%;
+}
+
+.square{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 350%;
+}
+
+.rectangle{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 350%;
+}
+
+.poligon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 350%;
+}
