@@ -16,7 +16,7 @@ export enum AppState {
     MOVE,
     COLOR,
     ROTATE,
-    SCALE,
+    RESIZE,
 }
 
 export enum ShapeType {

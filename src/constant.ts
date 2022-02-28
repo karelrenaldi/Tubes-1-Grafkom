@@ -3,6 +3,8 @@ import { VectorNumber4 } from "./types/type";
 export const DRAW = 'draw';
 export const COLOR = 'color';
 export const MOVE = 'move';
+export const SCALE = 'scale';
+export const RESIZE = 'resize';
 
 export const LINE = 'line';
 export const SQUARE = 'square';
