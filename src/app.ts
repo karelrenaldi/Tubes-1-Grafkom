@@ -191,17 +191,31 @@ const main = async() : Promise<void> => {
         if(shapeState === ShapeType.LINE) {
             newObj.SetVertex(currentVerticesShape);
         } else if(shapeState === ShapeType.SQUARE) {
-            const deltaX = currentVerticesShape[2] - currentVerticesShape[0]
-            const deltaY = currentVerticesShape[3] - currentVerticesShape[0]
+            let x1 = currentVerticesShape[0], x2 = currentVerticesShape[2];
+            let y1 = currentVerticesShape[1], y2 = currentVerticesShape[3];
+            const deltaX = Math.abs(x2-x1);
+            const deltaY = Math.abs(y2-y1);
+            const ratio = canvas.height / canvas.width;
+            
+            if (deltaY < deltaX) {
+                y2 = y1 + ((y2 > y1) ? 1 : -1) * (deltaX / ratio);
+            } else {
+                x2 = x1 + ((x2 > x1) ? 1 : -1) * deltaY * ratio;
+            }
 
-            const dist = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+            const xLeft = Math.min(x1,x2);
+            const xRight = Math.max(x1,x2);
+
+            const yDown = Math.min(y1,y2);
+            const yUp = Math.max(y1,y2);
+
             const squareVerticesShape = [
-                currentVerticesShape[0], currentVerticesShape[1],
-                currentVerticesShape[0], currentVerticesShape[1] + dist,
-                currentVerticesShape[2], currentVerticesShape[3],
-                currentVerticesShape[2], currentVerticesShape[3],
-                currentVerticesShape[0] + dist, currentVerticesShape[1],
-                currentVerticesShape[0], currentVerticesShape[1],
+                xLeft, yDown,
+                xLeft, yUp,
+                xRight, yUp,
+                xRight, yUp,
+                xRight, yDown,
+                xLeft, yDown,
             ];
             newObj.SetVertex(squareVerticesShape);
         } else if (shapeState === ShapeType.RECTANGLE) {
